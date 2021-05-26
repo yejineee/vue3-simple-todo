@@ -1,8 +1,8 @@
 import { getTodos } from '@/apis';
 export const TODO_STORE_NAME = 'todo';
-//mutations
+// mutations
 export const MUTATE_TODOS = 'MUTATE_TODOS';
-//actions
+// actions
 export const FETCH_TODOS = 'FETCH_TODOS';
 
 export default {

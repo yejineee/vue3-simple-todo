@@ -1,5 +1,5 @@
 import axios from './axios';
 
 export const getTodos = async () => {
-  return axios.get(`/todos`);
+  return axios.get('/todos');
 };

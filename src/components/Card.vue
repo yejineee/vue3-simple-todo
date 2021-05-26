@@ -1,13 +1,15 @@
 <template>
   <div class="card-wrapper">
-    <div class="card-summary">{{ todo.title }}</div>
+    <div class="card-summary">
+      {{ todo.title }}
+    </div>
     <div class="pub-date">2021.04.02</div>
     <button class="card-status done active">Done</button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'Card',
@@ -16,12 +18,6 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-  },
-  setup(props) {
-    const { todo } = toRefs(props);
-    return {
-      todo,
-    };
   },
 });
 </script>
