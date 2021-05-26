@@ -3,13 +3,20 @@
     <div class="card-summary">
       {{ todo.title }}
     </div>
-    <div class="pub-date">2021.04.02</div>
-    <button class="card-status done active">Done</button>
+    <div class="card-info">
+      <div class="pub-date">2021.04.02</div>
+      <button :class="statusClass">{{ status }}</button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+
+const statusMap = {
+  DONE: 'Done',
+  IN_PROGRESS: 'In Progress',
+};
 
 export default defineComponent({
   name: 'Card',
@@ -19,23 +26,68 @@ export default defineComponent({
       required: true,
     },
   },
+  computed: {
+    status() {
+      return this.todo.completed ? statusMap.DONE : statusMap.IN_PROGRESS;
+    },
+    statusClass() {
+      return ['card-status', { done: this.todo.completed }];
+    },
+  },
 });
 </script>
 
 <style scoped lang="scss">
 $done: red;
-.card-wrapper {
-  border: 1px solid red;
-  width: 100%;
-  height: 3rem;
+$in-progress: blue;
+@mixin status-btn($color) {
+  border-radius: 4px;
+  border: 1px solid $color;
+  background: $color;
 }
-.card-title {
-  font-size: 2rem;
+@mixin flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 5rem;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 0 3rem;
+
+  & + & {
+    margin-top: 1rem;
+  }
+}
+.card-summary {
+  // @include flex-center;
+  flex: 2 1 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font: {
+    size: 1.4rem;
+    weight: 800;
+  }
+}
+.card-info {
+  display: flex;
+  flex: 1 1 0;
+  justify-content: space-between;
+  align-items: center;
 }
 .card-status {
+  @include status-btn($in-progress);
+  color: white;
+  font-weight: 800;
+
   &.done {
-    border-radius: 4px;
-    border: 1px solid $done;
+    @include status-btn($done);
   }
 }
 </style>
