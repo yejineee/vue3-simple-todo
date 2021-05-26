@@ -17,7 +17,6 @@ export default defineComponent({
 
 <style scoped>
 #board {
-  border: 1px solid black;
   height: 100%;
 }
 </style>

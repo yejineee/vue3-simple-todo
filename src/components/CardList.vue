@@ -22,9 +22,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-#card-list {
-  border: 1px solid green;
-}
-</style>
