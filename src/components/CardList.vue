@@ -1,6 +1,6 @@
 <template>
   <div id="card-list">
-    <card v-for="todo in todos.value" :key="todo.id" :todo="todo" />
+    <card v-for="todo in todos" :key="todo.id" :todo="todo" />
   </div>
 </template>
 
@@ -8,6 +8,7 @@
 import { defineComponent } from 'vue';
 import useTodos from '@/composables/useTodos';
 import Card from '@/components/Card.vue';
+
 export default defineComponent({
   name: 'CardList',
   components: {
@@ -15,7 +16,6 @@ export default defineComponent({
   },
   setup() {
     const { todos } = useTodos();
-
     return {
       todos,
     };
