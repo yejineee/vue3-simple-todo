@@ -5,7 +5,9 @@
     </div>
     <div class="card-info">
       <div class="pub-date">2021.04.02</div>
-      <button :class="statusClass">{{ status }}</button>
+      <button :class="statusClass" @click="toggleStatus">
+        {{ statusMsg }}
+      </button>
     </div>
   </div>
 </template>
@@ -23,16 +25,18 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { todo } = toRefs(props);
-    const { status } = useStatus(todo.value.completed);
+    const { completed, id } = toRefs(props.todo);
+    const { status, statusMsg, toggleStatus } = useStatus(id, completed);
 
     return {
       status,
+      toggleStatus,
+      statusMsg,
     };
   },
   computed: {
     statusClass() {
-      return ['card-status', { done: this.todo.completed }];
+      return ['card-status', { done: this.status }];
     },
   },
 });
@@ -66,7 +70,6 @@ $in-progress: blue;
   }
 }
 .card-summary {
-  // @include flex-center;
   flex: 2 1 0;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -86,6 +89,7 @@ $in-progress: blue;
   @include status-btn($in-progress);
   color: white;
   font-weight: 800;
+  cursor: pointer;
 
   &.done {
     @include status-btn($done);
