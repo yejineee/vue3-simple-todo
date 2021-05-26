@@ -1,12 +1,9 @@
-import { getTodos } from '@/apis';
-import { onMounted, reactive, ref } from 'vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { TODO_STORE_NAME, FETCH_TODOS } from '@/stores/todo';
 
 export default function useTodos() {
-  const todos = reactive([]);
-  const func = async () => {
-    todos.value = await getTodos();
-  };
-
-  onMounted(func);
-  return { todos };
+  const store = useStore();
+  store.dispatch(`${TODO_STORE_NAME}/${FETCH_TODOS}`);
+  return { todos: computed(() => store.state[TODO_STORE_NAME].todos) };
 }
