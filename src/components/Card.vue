@@ -11,12 +11,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-
-const statusMap = {
-  DONE: 'Done',
-  IN_PROGRESS: 'In Progress',
-};
+import { defineComponent, toRefs } from 'vue';
+import useStatus from '@/composables/useStatus';
 
 export default defineComponent({
   name: 'Card',
@@ -26,10 +22,15 @@ export default defineComponent({
       required: true,
     },
   },
+  setup(props) {
+    const { todo } = toRefs(props);
+    const { status } = useStatus(todo.value.completed);
+
+    return {
+      status,
+    };
+  },
   computed: {
-    status() {
-      return this.todo.completed ? statusMap.DONE : statusMap.IN_PROGRESS;
-    },
     statusClass() {
       return ['card-status', { done: this.todo.completed }];
     },
