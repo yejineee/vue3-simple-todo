@@ -1,6 +1,12 @@
 <template>
   <div class="card-wrapper">
-    <div class="card-summary">
+    <CardEdit
+      v-if="isEdit"
+      :id="todo.id"
+      :title="todo.title"
+      @submit-title="toggleIsEdit"
+    ></CardEdit>
+    <div v-else class="card-summary" @click="toggleIsEdit">
       {{ todo.title }}
     </div>
     <div class="card-info">
@@ -13,11 +19,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from 'vue';
+import { defineComponent, toRefs, ref } from 'vue';
+import CardEdit from '@/components/CardEdit.vue';
 import useStatus from '@/composables/useStatus';
 
 export default defineComponent({
   name: 'Card',
+  components: {
+    CardEdit,
+  },
   props: {
     todo: {
       type: Object,
@@ -25,13 +35,20 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const isEdit = ref(false);
     const { completed, id } = toRefs(props.todo);
     const { status, statusMsg, toggleStatus } = useStatus(id, completed);
+
+    const toggleIsEdit = () => {
+      isEdit.value = !isEdit.value;
+    };
 
     return {
       status,
       toggleStatus,
       statusMsg,
+      toggleIsEdit,
+      isEdit,
     };
   },
   computed: {
